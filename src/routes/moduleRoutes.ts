@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post(
   "/",
-  authenticateJWT,
-  checkUserRole(["Admin", "Lecturer"]),
+  // authenticateJWT,
+  // checkUserRole(["Admin", "Lecturer"]),
   moduleController.createModule
 );
 

@@ -7,6 +7,7 @@ export interface IUser extends Document {
   name: string;
   profilePicture: string;
   wallet: number;
+  modules: mongoose.Schema.Types.ObjectId[];
 }
 
 const UserSchema = new Schema<IUser>({
@@ -20,6 +21,12 @@ const UserSchema = new Schema<IUser>({
   name: { type: String, required: true },
   profilePicture: { type: String },
   wallet: { type: Number, default: 0 },
+  modules: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Module",
+    },
+  ],
 });
 
 export default mongoose.model<IUser>("User", UserSchema);
