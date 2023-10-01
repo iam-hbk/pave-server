@@ -7,6 +7,10 @@ export interface IUser extends Document {
   name: string;
   profilePicture: string;
   wallet: number;
+  pavePoints: number;
+  modules: mongoose.Schema.Types.ObjectId[];
+  lastLogin: Date;
+  consecutiveLogins: number;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -20,6 +24,15 @@ const UserSchema = new Schema<IUser>({
   name: { type: String, required: true },
   profilePicture: { type: String },
   wallet: { type: Number, default: 0 },
+  modules: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Module",
+    },
+  ],
+  lastLogin: { type: Date, default: Date.now },
+  consecutiveLogins: { type: Number, default: 1 },
+  pavePoints: { type: Number, default: 0 },
 });
 
 export default mongoose.model<IUser>("User", UserSchema);

@@ -11,8 +11,9 @@ import attendanceRoutes from "./routes/attendanceRoutes";
 import dailyQuestionRoutes from "./routes/dailyQuestionRoutes";
 import moduleRoutes from "./routes/moduleRoutes";
 import paveCoinTransactionRoutes from "./routes/paveCoinTransactionRoutes";
+import quizAnswerRoutes from "./routes/quizAnswerRoutes";
 
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -40,6 +41,7 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/daily-question", dailyQuestionRoutes);
 app.use("/api/transaction", paveCoinTransactionRoutes);
 app.use("/api/module", moduleRoutes);
+app.use("/api/quizzes", quizAnswerRoutes);
 
 app.use(errorHandler);
 

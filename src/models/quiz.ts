@@ -2,6 +2,11 @@
 
 import mongoose, { Document, Schema } from "mongoose";
 
+interface Question {
+  questionText: string;
+  options: string[];
+  correctAnswer: number; // Index of the correct answer in the options array
+}
 export interface IQuiz extends Document {
   /**
    * This model represents quizzes created by lecturers for specific classes.
@@ -10,13 +15,9 @@ export interface IQuiz extends Document {
    */
 
   module: mongoose.Schema.Types.ObjectId; // Reference to Module model
-  questions: [
-    {
-      questionText: string;
-      options: string[];
-      correctAnswer: number; // Index of the correct answer in the options array
-    }
-  ];
+  questions: Question[];
+  date: Date;
+  title: string;
 }
 
 const QuizSchema = new Schema<IQuiz>({
@@ -32,6 +33,8 @@ const QuizSchema = new Schema<IQuiz>({
       correctAnswer: { type: Number, required: true },
     },
   ],
+  date: { type: Date, default: Date.now },
+  title: { type: String, required: true },
 });
 
 export default mongoose.model<IQuiz>("Quiz", QuizSchema);

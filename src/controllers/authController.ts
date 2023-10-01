@@ -8,21 +8,39 @@ class AuthController {
     try {
       const existingUser = await User.findOne({ email: req.body.email });
       if (existingUser) {
-        res.status(400).json({ message: "User already exists" });
+        res
+          .status(400)
+          .json({ message: "Email already in use, Login to continue" });
         return;
       }
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user: IUser = new User({ ...req.body, password: hashedPassword });
       await user.save();
-      // Generate a JWT token for the user
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
-        expiresIn: "1h",
+        expiresIn: "7d",
       });
 
-      res.status(201).json({ message: "User registered successfully", user });
+      // Omit the password from the response
+      const userResponse = {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        wallet: user.wallet,
+        token,
+      };
+      console.log(token);
+
+      res
+        .status(201)
+        .json({ message: "User registered successfully", userResponse });
     } catch (error) {
-      res.status(500).json({ message: "Error registering user", error });
+      res.status(500).json({
+        message: "Service currently unavailable, please try again later",
+        error,
+      });
     }
   }
 
@@ -46,9 +64,26 @@ class AuthController {
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
         expiresIn: "7d",
       });
-      res.status(200).json({ message: "Logged in successfully", token, user });
+
+      // Omit the password from the response
+      const userResponse = {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        wallet: user.wallet,
+        token,
+      };
+      console.log(token);
+      res
+        .status(200)
+        .json({ message: "Logged in successfully", user: userResponse });
     } catch (error) {
-      res.status(500).json({ message: "Error logging in user", error });
+      res.status(500).json({
+        message: "Service currently unavailable, please try again later",
+        error,
+      });
     }
   }
 }
