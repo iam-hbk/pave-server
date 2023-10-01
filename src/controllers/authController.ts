@@ -31,6 +31,7 @@ class AuthController {
         wallet: user.wallet,
         token,
       };
+      console.log(token);
 
       res
         .status(201)
@@ -60,32 +61,6 @@ class AuthController {
         return;
       }
 
-      //Login Streak check
-      const today = new Date();
-      const yesterday = new Date(today);
-      yesterday.setDate(today.getDate() - 1);
-
-      if (user.lastLogin.toDateString() === today.toDateString()) {
-        // Already logged in today
-        return;
-      }
-
-      if (user.lastLogin.toDateString() === yesterday.toDateString()) {
-        // Consecutive login
-        user.consecutiveLogins += 1;
-      } else {
-        // Reset counter
-        user.consecutiveLogins = 1;
-      }
-
-      if (user.consecutiveLogins === 7) {
-        user.wallet += 50;
-        user.consecutiveLogins = 0;
-        // Reward for 7-day streak, e.g., extra quiz attempts, bonus points, etc.
-      }
-      user.lastLogin = today;
-       
-      await user.save();
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
         expiresIn: "7d",
       });
@@ -100,7 +75,7 @@ class AuthController {
         wallet: user.wallet,
         token,
       };
-
+      console.log(token);
       res
         .status(200)
         .json({ message: "Logged in successfully", user: userResponse });

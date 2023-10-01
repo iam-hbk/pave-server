@@ -7,6 +7,7 @@ export interface IUser extends Document {
   name: string;
   profilePicture: string;
   wallet: number;
+  pavePoints: number;
   modules: mongoose.Schema.Types.ObjectId[];
   lastLogin: Date;
   consecutiveLogins: number;
@@ -31,6 +32,7 @@ const UserSchema = new Schema<IUser>({
   ],
   lastLogin: { type: Date, default: Date.now },
   consecutiveLogins: { type: Number, default: 1 },
+  pavePoints: { type: Number, default: 0 },
 });
 
 export default mongoose.model<IUser>("User", UserSchema);

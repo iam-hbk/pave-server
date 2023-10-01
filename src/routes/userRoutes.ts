@@ -34,4 +34,10 @@ router.put("/:id", userController.updateUser);
 // Delete a user by ID
 router.delete("/:id", userController.deleteUser);
 
+//Check in user
+router.post("/checkin", authenticateJWT, userController.dailyCheckin);
+
+//Get user's ranking by ID
+router.get("/ranking/:id", userController.getUserRanking);
+
 export default router;
