@@ -8,6 +8,8 @@ export interface IUser extends Document {
   profilePicture: string;
   wallet: number;
   modules: mongoose.Schema.Types.ObjectId[];
+  lastLogin: Date;
+  consecutiveLogins: number;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -27,6 +29,8 @@ const UserSchema = new Schema<IUser>({
       ref: "Module",
     },
   ],
+  lastLogin: { type: Date, default: Date.now },
+  consecutiveLogins: { type: Number, default: 1 },
 });
 
 export default mongoose.model<IUser>("User", UserSchema);

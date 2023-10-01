@@ -17,19 +17,29 @@ class AuthController {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user: IUser = new User({ ...req.body, password: hashedPassword });
       await user.save();
-      // Generate a JWT token for the user
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
-        expiresIn: "1h",
+        expiresIn: "7d",
       });
 
-      res.status(201).json({ message: "User registered successfully", user });
-    } catch (error) {
+      // Omit the password from the response
+      const userResponse = {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        wallet: user.wallet,
+        token,
+      };
+
       res
-        .status(500)
-        .json({
-          message: "Service currently unavailable, please try again later",
-          error,
-        });
+        .status(201)
+        .json({ message: "User registered successfully", userResponse });
+    } catch (error) {
+      res.status(500).json({
+        message: "Service currently unavailable, please try again later",
+        error,
+      });
     }
   }
 
@@ -50,6 +60,32 @@ class AuthController {
         return;
       }
 
+      //Login Streak check
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+
+      if (user.lastLogin.toDateString() === today.toDateString()) {
+        // Already logged in today
+        return;
+      }
+
+      if (user.lastLogin.toDateString() === yesterday.toDateString()) {
+        // Consecutive login
+        user.consecutiveLogins += 1;
+      } else {
+        // Reset counter
+        user.consecutiveLogins = 1;
+      }
+
+      if (user.consecutiveLogins === 7) {
+        user.wallet += 50;
+        user.consecutiveLogins = 0;
+        // Reward for 7-day streak, e.g., extra quiz attempts, bonus points, etc.
+      }
+      user.lastLogin = today;
+       
+      await user.save();
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
         expiresIn: "7d",
       });
