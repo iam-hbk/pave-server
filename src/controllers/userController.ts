@@ -133,7 +133,7 @@ class UserController {
         res.status(404).json({ message: "User not found" });
         return;
       }
-      const users = await User.find().sort({ pavePoints: -1 });
+      const users = await User.find().sort({ wallet: -1 });
       const ranking = users.findIndex((user) => user._id == req.params.id);
       res.status(200).json({ ranking: ranking + 1 });
     } catch (error) {

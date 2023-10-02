@@ -1,6 +1,7 @@
 import express from "express";
 import connectDB from "./database";
-
+import * as socketIo from "socket.io";
+import * as http from "http";
 //middlewares
 import cors from "cors";
 import { errorHandler } from "@middlewares/errorHandler";
@@ -12,8 +13,11 @@ import dailyQuestionRoutes from "./routes/dailyQuestionRoutes";
 import moduleRoutes from "./routes/moduleRoutes";
 import paveCoinTransactionRoutes from "./routes/paveCoinTransactionRoutes";
 import quizAnswerRoutes from "./routes/quizAnswerRoutes";
+import user, { walletChangePipeline } from "@models/user";
 
 export const app = express();
+const server: http.Server = http.createServer(app);
+const io: socketIo.Server = new socketIo.Server(server);
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -42,9 +46,22 @@ app.use("/api/daily-question", dailyQuestionRoutes);
 app.use("/api/transaction", paveCoinTransactionRoutes);
 app.use("/api/module", moduleRoutes);
 app.use("/api/quizzes", quizAnswerRoutes);
-
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+// Watch for changes in the user collection
+console.log("Setting up wallet change stream...");
+const walletChangeStream = user.watch(walletChangePipeline);
+walletChangeStream.on("change", (change) => {
+  console.log("Wallet change detected:", change);
+  io.emit("wallet change", change);
+});
+console.log("Wallet change stream set up.");
+
+// Handle errors
+walletChangeStream.on("error", (error) => {
+  console.error("Error with wallet change stream:", error);
+});
+
+server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
