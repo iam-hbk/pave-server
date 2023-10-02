@@ -12,7 +12,9 @@ import attendanceRoutes from "./routes/attendanceRoutes";
 import dailyQuestionRoutes from "./routes/dailyQuestionRoutes";
 import moduleRoutes from "./routes/moduleRoutes";
 import paveCoinTransactionRoutes from "./routes/paveCoinTransactionRoutes";
+import quizRoutes from "./routes/quizRoutes";
 import quizAnswerRoutes from "./routes/quizAnswerRoutes";
+
 import user, { walletChangePipeline } from "@models/user";
 
 export const app = express();
@@ -45,7 +47,8 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/daily-question", dailyQuestionRoutes);
 app.use("/api/transaction", paveCoinTransactionRoutes);
 app.use("/api/module", moduleRoutes);
-app.use("/api/quizzes", quizAnswerRoutes);
+app.use("/api/answer-quiz", quizAnswerRoutes);
+app.use("/api/quiz", quizRoutes);
 app.use(errorHandler);
 
 // Watch for changes in the user collection

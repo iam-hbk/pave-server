@@ -18,6 +18,8 @@ export interface IQuiz extends Document {
   questions: Question[];
   date: Date;
   title: string;
+  isActive: boolean;
+  expiresAt: Date;
 }
 
 const QuizSchema = new Schema<IQuiz>({
@@ -35,13 +37,15 @@ const QuizSchema = new Schema<IQuiz>({
   ],
   date: { type: Date, default: Date.now },
   title: { type: String, required: true },
+  isActive: { type: Boolean, default: true },
+  expiresAt: { type: Date, required: true },
 });
 
 export default mongoose.model<IQuiz>("Quiz", QuizSchema);
 //dummy quiz
 
 const newQuiz = {
-  module: "60e4f88b8b84a01c8417f048", // Assuming this ObjectId corresponds to a valid Module document
+  module: "651835453acb0d7dd3434fe0", // Assuming this ObjectId corresponds to a valid Module document
   questions: [
     {
       questionText: "What is the capital of France?",

@@ -30,6 +30,7 @@ router.get("/:id", userController.getUserById);
 
 // Update a user by ID
 router.put("/:id", userController.updateUser);
+router.put("/password/:id", authController.updatePassword);
 
 // Delete a user by ID
 router.delete("/:id", userController.deleteUser);
