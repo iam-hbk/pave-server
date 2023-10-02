@@ -38,3 +38,31 @@ const QuizSchema = new Schema<IQuiz>({
 });
 
 export default mongoose.model<IQuiz>("Quiz", QuizSchema);
+//dummy quiz
+
+const newQuiz = {
+  module: "60e4f88b8b84a01c8417f048", // Assuming this ObjectId corresponds to a valid Module document
+  questions: [
+    {
+      questionText: "What is the capital of France?",
+      options: ["Rome", "Madrid", "Paris", "Berlin"],
+      correctAnswer: 2, // Index of the correct answer in the options array
+    },
+    {
+      questionText: "Which planet is known as the Red Planet?",
+      options: ["Earth", "Mars", "Jupiter", "Saturn"],
+      correctAnswer: 1, // Index of the correct answer in the options array
+    },
+    {
+      questionText: "What is the largest ocean on Earth?",
+      options: [
+        "Atlantic Ocean",
+        "Indian Ocean",
+        "Arctic Ocean",
+        "Pacific Ocean",
+      ],
+      correctAnswer: 3, // Index of the correct answer in the options array
+    },
+  ],
+  title: "General Knowledge Quiz",
+};

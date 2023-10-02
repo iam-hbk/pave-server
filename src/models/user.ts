@@ -32,7 +32,22 @@ const UserSchema = new Schema<IUser>({
   ],
   lastLogin: { type: Date, default: Date.now },
   consecutiveLogins: { type: Number, default: 1 },
-  pavePoints: { type: Number, default: 0 },
 });
 
+//This is a change stream pipeline that will only trigger when the `wallet` field is updated
+//This pipeline will be used in the `User` model's `watch()` function
+//It's to help us rank the users by their wallet balance in real-time
+export const walletChangePipeline = [
+  {
+    $match: {
+      "updateDescription.updatedFields.wallet": { $exists: true },
+    },
+  },
+  // {
+  //   $project: {
+  //     documentKey: false,
+  //     updateDescription: false,
+  //   },
+  // },
+];
 export default mongoose.model<IUser>("User", UserSchema);
