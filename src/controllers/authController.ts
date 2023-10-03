@@ -17,9 +17,17 @@ class AuthController {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user: IUser = new User({ ...req.body, password: hashedPassword });
       await user.save();
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
-        expiresIn: "7d",
-      });
+
+      const token = jwt.sign(
+        {
+          role: user.role,
+          id: user._id,
+        },
+        process.env.JWT_SECRET_KEY!,
+        {
+          expiresIn: "7d",
+        }
+      );
 
       // Omit the password from the response
       const userResponse = {
@@ -29,6 +37,7 @@ class AuthController {
         name: user.name,
         profilePicture: user.profilePicture,
         wallet: user.wallet,
+        modules: user.modules,
         token,
       };
 
@@ -60,9 +69,16 @@ class AuthController {
         return;
       }
 
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY!, {
-        expiresIn: "7d",
-      });
+      const token = jwt.sign(
+        {
+          role: user.role,
+          id: user._id,
+        },
+        process.env.JWT_SECRET_KEY!,
+        {
+          expiresIn: "7d",
+        }
+      );
 
       // Omit the password from the response
       const userResponse = {

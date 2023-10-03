@@ -22,9 +22,9 @@ router.get(
 );
 
 router.get(
-  "/module/:moduleId",
+  "/module/:moduleCode",
   authenticateJWT,
-  quizController.getQuizzesByModuleId
+  quizController.getQuizzesByModuleCode
 );
 
 router.put(

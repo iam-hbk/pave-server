@@ -1,6 +1,8 @@
+import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import User, { IUser } from "@models/user";
 import { AppError } from "@middlewares/errorHandler";
+import { JsonUser } from "src/interfaces/user";
 
 class UserController {
   // Create a new user
@@ -38,7 +40,28 @@ class UserController {
         res.status(404).json({ message: "User not found" });
         return;
       }
-      res.status(200).json(user);
+      const token = jwt.sign(
+        {
+          role: user.role,
+          id: user._id,
+        },
+        process.env.JWT_SECRET_KEY!,
+        {
+          expiresIn: "7d",
+        }
+      );
+      const userResponse: JsonUser = {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        wallet: user.wallet,
+        modules: user.modules,
+        token: token,
+      };
+
+      res.status(200).json({ user: userResponse });
     } catch (error) {
       res.status(500).json({ message: "Error fetching user", error });
     }

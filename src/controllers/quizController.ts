@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Quiz from "@models/quiz";
+import Module from "@models/module";
 
 export const createQuiz = async (req: Request, res: Response) => {
   try {
@@ -21,13 +22,33 @@ export const getQuizById = async (req: Request, res: Response) => {
   }
 };
 
-export const getQuizzesByModuleId = async (req: Request, res: Response) => {
+export const getQuizzesByModuleCode = async (req: Request, res: Response) => {
   try {
-    const quiz = await Quiz.find({ module: req.params.moduleId });
-    if (!quiz) return res.status(404).json({ message: "Quiz not found" });
-    res.json(quiz);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    // Retrieve moduleCode from request parameters
+    const { moduleCode } = req.params;
+
+    // Find the module with the specified moduleCode
+    const module = await Module.findOne({ moduleCode });
+    if (!module) {
+      return res.status(404).json({ message: "Module not found" });
+    }
+
+    // Use the module's ID to find quizzes
+    const quizzes = await Quiz.find({ module: module._id });
+    //Format the quizzes
+    const formattedQuizzes = quizzes.map((quiz) => {
+      return {
+        ...quiz.toObject(),
+        module: module.moduleCode,
+      };
+    });
+
+    // Send the quizzes to the client
+    res.status(200).json({ quizzes: formattedQuizzes });
+  } catch (error) {
+    // Handle any errors that occur
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
