@@ -26,10 +26,11 @@ router.get(
 );
 
 // Get a single user by ID
-router.get("/:id", userController.getUserById);
+router.get("/:id", authenticateJWT, userController.getUserById);
 
 // Update a user by ID
-router.put("/:id", userController.updateUser);
+router.put("/:id", authenticateJWT, userController.updateUser);
+router.put("/password/:id", authController.updatePassword);
 
 // Delete a user by ID
 router.delete("/:id", userController.deleteUser);

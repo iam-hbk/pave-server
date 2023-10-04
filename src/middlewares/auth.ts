@@ -13,14 +13,17 @@ export const authenticateJWT = (
   if (authHeader) {
     const token = authHeader.split(" ")[1];
     jwt.verify(
+      // token.trim(),
       token,
       process.env.JWT_SECRET_KEY as string,
       (err: any, user: any) => {
         if (err) {
-          console.log("[err]:", err);
-          return res.sendStatus(403);
+          // console.log("[err]:", err);
+          return res
+            .status(403)
+            .json({ message: "Your session has expired, please login" });
         }
-        req.user = user;
+        req.user = user as JwtPayload;
         next();
       }
     );

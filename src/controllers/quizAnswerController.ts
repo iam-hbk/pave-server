@@ -1,5 +1,5 @@
 import Answer from "@models/quizAnswer";
-import express, { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 // Middleware to check if the quiz exists

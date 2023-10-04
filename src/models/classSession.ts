@@ -16,7 +16,11 @@ export interface ISession extends Document {
 }
 
 const SessionSchema = new Schema<ISession>({
-  module: { type: mongoose.Schema.Types.ObjectId, ref: "Module", required: true },
+  module: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Module",
+    required: true,
+  },
   qrCodeOrigin: {
     lat: { type: Number, required: true },
     long: { type: Number, required: true },

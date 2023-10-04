@@ -12,12 +12,18 @@ router.post(
   dailyQuestionController.createDailyQuestion
 );
 
+/**Get today's dailyQuestion */
+router.get(
+  "/daily/today",
+  authenticateJWT,
+  dailyQuestionController.getDailyQuestionByTodayDate
+);
+
 router.get(
   "/:id",
   authenticateJWT,
   dailyQuestionController.getDailyQuestionById
 );
-
 router.get("/", authenticateJWT, dailyQuestionController.getAllDailyQuestions);
 router.put(
   "/:id",
