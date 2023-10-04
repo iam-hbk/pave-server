@@ -22,10 +22,15 @@ router.get(
 );
 
 router.get(
-  "/module/:moduleCode",
+  "/module/moduleCode/:moduleCode",
   authenticateJWT,
   quizController.getQuizzesByModuleCode
 );
+router.get(
+  "/module/id/:id",
+  authenticateJWT,
+  quizController.getQuizzesByModuleID
+)
 
 router.put(
   "/:id",

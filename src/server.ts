@@ -59,17 +59,18 @@ app.use(errorHandler);
 // Socket.io
 io.on("connection", (socket) => {
   console.log("New client connected");
-
+  // setInterval(() => {
+  //   socket.emit('wallet change', { data: 'Test wallet change' });
+  // }, 5000);
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
 });
-io.on('connection', (socket) => {
-  socket.on('error', (error) => {
-    console.error('Socket error:', error);
+io.on("connection", (socket) => {
+  socket.on("error", (error) => {
+    console.error("Socket error:", error);
   });
 });
-
 
 // Watch for changes in the user collection
 console.log("Setting up wallet change stream...");

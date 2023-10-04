@@ -21,6 +21,30 @@ export const getQuizById = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const getQuizzesByModuleID = async (req: Request, res: Response) => {
+  try {
+    // Find the module with the specified moduleCode
+    const module = await Module.findById(req.params.id);
+    if (!module) {
+      return res.status(404).json({ message: "Module not found" });
+    }
+
+    const quizzes = await Quiz.find({ module: req.params.id });
+    if (!quizzes) return res.status(404).json({ message: "Quiz not found" });
+
+    const formattedQuizzes = quizzes.map((quiz) => {
+      return {
+        ...quiz.toObject(),
+        moduleCode: module.moduleCode,
+        moduleName: module.moduleName,
+      };
+    });
+
+    res.json({ quizzes: formattedQuizzes });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const getQuizzesByModuleCode = async (req: Request, res: Response) => {
   try {
@@ -39,7 +63,8 @@ export const getQuizzesByModuleCode = async (req: Request, res: Response) => {
     const formattedQuizzes = quizzes.map((quiz) => {
       return {
         ...quiz.toObject(),
-        module: module.moduleCode,
+        moduleCode: module.moduleCode,
+        moduleName: module.moduleName,
       };
     });
 

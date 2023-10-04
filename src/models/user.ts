@@ -32,6 +32,8 @@ const UserSchema = new Schema<IUser>({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Module",
+      unique: true,
+      sparse: true,
     },
   ],
   lastLogin: { type: Date, default: Date.now },
