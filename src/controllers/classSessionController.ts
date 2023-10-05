@@ -3,6 +3,7 @@ import ClassSession from "@models/classSession";
 
 // Create a new class session
 export const createClassSession = async (req: Request, res: Response) => {
+  console.log("Creating a session...")
   try {
     const classSession = new ClassSession(req.body);
     await classSession.save();
