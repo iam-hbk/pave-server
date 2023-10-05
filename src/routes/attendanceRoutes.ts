@@ -8,7 +8,6 @@ const router = express.Router();
 router.post(
   "/",
   authenticateJWT,
-  checkUserRole(["Admin", "Lecturer"]),
   attendanceController.createAttendance
 );
 

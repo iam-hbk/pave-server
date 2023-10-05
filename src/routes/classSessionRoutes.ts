@@ -8,6 +8,9 @@ const router = express.Router();
 // Route to create a new class session
 router.post("/create", classSessionController.createClassSession);
 
+//Route to get class sessions by lecturer id
+router.get("/lecturer/:id", classSessionController.getClassSessionByLecturerId);
+
 // Route to fetch all class sessions
 router.get("/", classSessionController.getAllClassSessions);
 

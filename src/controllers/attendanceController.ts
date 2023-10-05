@@ -6,6 +6,15 @@ export const createAttendance = async (req: Request, res: Response) => {
    * This function will handle the creation of a new attendance record.
    */
   try {
+    // check if the student has already checked in
+    const existingAttendance = await Attendance.findOne({
+      student: req.body.student,
+      session: req.body.session,
+    });
+    if (existingAttendance) {
+      return res.status(400).json({ message: "Attendance already exists" });
+    }
+
     const attendance = new Attendance(req.body);
     await attendance.save();
     res.status(201).json(attendance);

@@ -22,6 +22,11 @@ export interface IQuiz extends Document {
   expiresAt: Date;
 }
 
+/**
+ * This model represents quizzes created by lecturers for specific classes.
+ * Each quiz can have multiple questions, and each question has multiple options
+ * and a correct answer (represented by the index of the correct option in the options array).
+ */
 const QuizSchema = new Schema<IQuiz>({
   module: {
     type: mongoose.Schema.Types.ObjectId,
