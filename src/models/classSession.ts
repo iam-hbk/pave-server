@@ -13,6 +13,8 @@ export interface ISession extends Document {
   classStartTime: Date;
   classEndTime: Date;
   isActive: boolean; // To check if the session is currently active or not
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const SessionSchema = new Schema<ISession>({
@@ -28,16 +30,24 @@ const SessionSchema = new Schema<ISession>({
   classStartTime: { type: Date, required: true },
   classEndTime: { type: Date, required: true },
   isActive: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 //new session pipeline
 export const newSessionPipeline = [
   {
     $match: {
-      $and: [
-        { "fullDocument.isActive": true },
-        { operationType: { $in: ["insert", "update"] } }
-      ]
+      $or: [
+        {
+          operationType: "insert",
+          "fullDocument.updatedAt": { $exists: true },
+        },
+        {
+          operationType: "update",
+          "updateDescription.updatedFields.isActive": { $exists: true },
+        },
+      ],
     },
   },
 ];

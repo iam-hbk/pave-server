@@ -63,7 +63,9 @@ export const getClassSessionByLecturerId = async (
 
     const classSessions = await ClassSession.find({
       module: moduleIds,
-    }).populate({
+    })
+    .sort({ classStartTime: -1 })  // Sorting by classStartTime in descending order
+    .populate({
       path: "module",
       select: "moduleCode moduleName",
     });

@@ -23,7 +23,7 @@ export function setupSocket(server: HTTPServer): void {
         "A new session has been created or updated:",
         change.fullDocument
       );
-      socket.emit("newClassSession", change.fullDocument);
+      socket.emit("newClassSession", change.fullDocument,"HBK");
 
       // Trigger push notifications
       // const tokens: string[] = []; // Fetch the push tokens for the users you want to notify
