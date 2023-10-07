@@ -39,15 +39,33 @@ export const newSessionPipeline = [
   {
     $match: {
       $or: [
+        // Match documents that are newly inserted and have an 'updatedAt' field
         {
           operationType: "insert",
           "fullDocument.updatedAt": { $exists: true },
         },
+        // Match documents that are updated and have the 'isActive' field updated
         {
           operationType: "update",
           "updateDescription.updatedFields.isActive": { $exists: true },
         },
       ],
+    },
+  },
+  {
+    $addFields: {
+      // If operationType is 'insert', set isNew to true, otherwise set it to false
+      isNew: { $eq: ["$operationType", "insert"] },
+      // If operationType is 'update', set wasUpdated to true, otherwise set it to false
+      wasUpdated: { $eq: ["$operationType", "update"] },
+      // If operationType is 'insert', get the id from fullDocument._id, otherwise get it from documentKey._id
+      id: {
+        $cond: [
+          { $eq: ["$operationType", "insert"] },
+          "$fullDocument._id",
+          "$documentKey._id",
+        ],
+      },
     },
   },
 ];

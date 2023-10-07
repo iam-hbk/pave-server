@@ -17,6 +17,7 @@ export const createAttendance = async (req: Request, res: Response) => {
 
     const attendance = new Attendance(req.body);
     await attendance.save();
+    console.log("ATTENDANCE registered",attendance);
     res.status(201).json(attendance);
   } catch (error) {
     res.status(500).json({ message: "Error creating attendance", error });

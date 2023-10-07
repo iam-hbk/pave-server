@@ -28,31 +28,5 @@ export const newAttendancePipeline = [
       operationType: "insert",
     },
   },
-  {
-    $lookup: {
-      from: "users", // Assumes the collection name for users is 'users'
-      localField: "student",
-      foreignField: "_id",
-      as: "studentInfo",
-    },
-  },
-  {
-    $unwind: "$studentInfo", // Unwind the array produced by $lookup
-  },
-  {
-    $addFields: {
-      studentName: "$studentInfo.name", // Assumes the name field in User document is 'name'
-    },
-  },
-  {
-    $project: {
-      _id: 1,
-      student: 1,
-      studentName: 1,
-      session: 1,
-      scanTime: 1,
-    },
-  },
 ];
-
 export default mongoose.model<IAttendance>("Attendance", AttendanceSchema);
