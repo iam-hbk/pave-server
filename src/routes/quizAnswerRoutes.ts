@@ -4,7 +4,7 @@ import {
   checkQuizExists,
   checkStudentExists,
   getAnswer,
-} from "@controllers/quizAnswerController";
+} from "../controllers/quizAnswerController";
 const router = express.Router();
 
 router.post("/answers", checkQuizExists, checkStudentExists, addAnswer);

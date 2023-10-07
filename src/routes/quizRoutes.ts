@@ -1,7 +1,7 @@
 import express from "express";
-import * as quizController from "@controllers/quizController";
-import { authenticateJWT } from "@middlewares/auth";
-import checkUserRole from "@middlewares/roleAuthorization";
+import * as quizController from "../controllers/quizController";
+import { authenticateJWT } from "../middlewares/auth";
+import checkUserRole from "../middlewares/roleAuthorization";
 
 const router = express.Router();
 

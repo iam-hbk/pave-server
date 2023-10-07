@@ -3,8 +3,8 @@ import { Server as HTTPServer } from "http";
 import { sendNotifications } from "./expoNotifications";
 
 //pipelines
-import session, { newSessionPipeline } from "@models/classSession";
-import user, { walletChangePipeline } from "@models/user";
+import session, { newSessionPipeline } from "../models/classSession";
+import user, { walletChangePipeline } from "../models/user";
 
 export function setupSocket(server: HTTPServer): void {
   console.log("Setting up socket.io server...");

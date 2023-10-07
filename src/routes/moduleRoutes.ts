@@ -1,7 +1,7 @@
 import express from "express";
-import * as moduleController from "@controllers/moduleController";
-import { authenticateJWT } from "@middlewares/auth";
-import checkUserRole from "@middlewares/roleAuthorization";
+import * as moduleController from "../controllers/moduleController";
+import { authenticateJWT } from "../middlewares/auth";
+import checkUserRole from "../middlewares/roleAuthorization";
 
 const router = express.Router();
 

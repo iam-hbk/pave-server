@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Quiz from "@models/quiz";
-import Module from "@models/module";
+import Quiz from "../models/quiz";
+import Module from "../models/module";
 
 export const createQuiz = async (req: Request, res: Response) => {
   try {

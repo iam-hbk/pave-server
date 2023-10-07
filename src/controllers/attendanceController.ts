@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Attendance from "@models/attendance";
+import Attendance from "../models/attendance";
 
 export const createAttendance = async (req: Request, res: Response) => {
   /**

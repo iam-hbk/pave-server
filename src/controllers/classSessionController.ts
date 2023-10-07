@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import ClassSession from "@models/classSession";
-import Module from "@models/module";
+import ClassSession from "../models/classSession";
+import Module from "../models/module";
 
 // Create a new class session
 export const createClassSession = async (req: Request, res: Response) => {

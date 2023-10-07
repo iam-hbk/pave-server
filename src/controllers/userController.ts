@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import User, { IUser } from "@models/user";
-import { AppError } from "@middlewares/errorHandler";
-import { JsonUser } from "src/interfaces/user";
+import User, { IUser } from "../models/user";
+// import { AppError } from "../middlewares/errorHandler";
+import { JsonUser } from "../interfaces/user";
 
 class UserController {
   // Create a new user

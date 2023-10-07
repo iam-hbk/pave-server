@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import PaveCoinTransaction from "@models/paveCoinTransaction";
+import PaveCoinTransaction from "../models/paveCoinTransaction";
 
 export const createTransaction = async (req: Request, res: Response) => {
   try {
