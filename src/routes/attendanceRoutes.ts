@@ -10,6 +10,8 @@ router.post(
   authenticateJWT,
   attendanceController.createAttendance
 );
+// get attendance by class session id
+router.get("/session/:id", attendanceController.getAttendanceBySessionId);
 
 router.get("/:id", authenticateJWT, attendanceController.getAttendanceById);
 

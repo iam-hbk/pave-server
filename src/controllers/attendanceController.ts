@@ -23,6 +23,20 @@ export const createAttendance = async (req: Request, res: Response) => {
   }
 };
 
+// Get attendance by session id and populate student name
+export const getAttendanceBySessionId = async (req: Request, res: Response) => {
+  /**
+   * This function will handle the retrieval of all attendance records by session ID.
+   */
+  try {
+    const attendances = await Attendance.find({ session: req.params.id }).populate("student", "name");
+    console.log("ATTENDANCE",attendances);
+    res.status(200).json(attendances);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching attendances", error });
+  }
+};
+
 export const getAttendanceById = async (req: Request, res: Response) => {
   /**
    * This function will handle the retrieval of a single attendance record by ID.
