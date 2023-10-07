@@ -30,4 +30,16 @@ const SessionSchema = new Schema<ISession>({
   isActive: { type: Boolean, default: true },
 });
 
+//new session pipeline
+export const newSessionPipeline = [
+  {
+    $match: {
+      $and: [
+        { "fullDocument.isActive": true },
+        { operationType: { $in: ["insert", "update"] } }
+      ]
+    },
+  },
+];
+
 export default mongoose.model<ISession>("Session", SessionSchema);
