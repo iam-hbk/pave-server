@@ -1,3 +1,4 @@
+import User from "@models/user";
 import { Request, Response } from "express";
 import Module from "@models/module";
 
@@ -15,7 +16,14 @@ export const getModuleById = async (req: Request, res: Response) => {
   try {
     const module = await Module.findById(req.params.id);
     if (!module) return res.status(404).json({ message: "Module not found" });
-    res.json(module);
+
+    // change the lecturer field from its ID from the Users model to the lecturer's name
+    const lecturer = await User.findById(module.lecturer);
+    if (!lecturer)
+      return res.status(404).json({ message: "Lecturer not found" });
+    return res
+      .status(201)
+      .json({ ...module.toObject(), lecturer: lecturer.name });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

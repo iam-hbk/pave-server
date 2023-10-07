@@ -6,11 +6,34 @@ export const createAttendance = async (req: Request, res: Response) => {
    * This function will handle the creation of a new attendance record.
    */
   try {
+    // check if the student has already checked in
+    const existingAttendance = await Attendance.findOne({
+      student: req.body.student,
+      session: req.body.session,
+    });
+    if (existingAttendance) {
+      return res.status(400).json({ message: "Attendance already exists" });
+    }
+
     const attendance = new Attendance(req.body);
     await attendance.save();
     res.status(201).json(attendance);
   } catch (error) {
     res.status(500).json({ message: "Error creating attendance", error });
+  }
+};
+
+// Get attendance by session id and populate student name
+export const getAttendanceBySessionId = async (req: Request, res: Response) => {
+  /**
+   * This function will handle the retrieval of all attendance records by session ID.
+   */
+  try {
+    const attendances = await Attendance.find({ session: req.params.id }).populate("student", "name");
+    console.log("ATTENDANCE",attendances);
+    res.status(200).json(attendances);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching attendances", error });
   }
 };
 

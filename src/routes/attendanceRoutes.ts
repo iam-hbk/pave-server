@@ -8,9 +8,10 @@ const router = express.Router();
 router.post(
   "/",
   authenticateJWT,
-  checkUserRole(["Admin", "Lecturer"]),
   attendanceController.createAttendance
 );
+// get attendance by class session id
+router.get("/session/:id", attendanceController.getAttendanceBySessionId);
 
 router.get("/:id", authenticateJWT, attendanceController.getAttendanceById);
 
