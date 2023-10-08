@@ -1,7 +1,7 @@
 import express from "express";
 import * as attendanceController from "../controllers/attendanceController";
-import { authenticateJWT } from "@middlewares/auth";
-import checkUserRole from "@middlewares/roleAuthorization";
+import { authenticateJWT } from "../middlewares/auth";
+import checkUserRole from "../middlewares/roleAuthorization";
 
 const router = express.Router();
 

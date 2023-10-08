@@ -1,7 +1,7 @@
 import express from "express";
-import * as paveCoinTransactionController from "@controllers/paveCoinTransactionController";
-import { authenticateJWT } from "@middlewares/auth";
-import checkUserRole from "@middlewares/roleAuthorization";
+import * as paveCoinTransactionController from "../controllers/paveCoinTransactionController";
+import { authenticateJWT } from "../middlewares/auth";
+import checkUserRole from "../middlewares/roleAuthorization";
 
 const router = express.Router();
 

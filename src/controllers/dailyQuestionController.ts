@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import DailyQuestion from "@models/dailyQuestion";
+import DailyQuestion from ".././models/dailyQuestion";
 
 export const createDailyQuestion = async (req: Request, res: Response) => {
   try {

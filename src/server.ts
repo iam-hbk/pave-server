@@ -1,10 +1,9 @@
 import express from "express";
 import connectDB from "./database";
-import * as socketIo from "socket.io";
 import { Server, createServer } from "node:http";
 //middlewares
 import cors from "cors";
-import { errorHandler } from "@middlewares/errorHandler";
+import { errorHandler } from "./middlewares/errorHandler";
 //routes
 import userRoutes from "./routes/userRoutes";
 import classSessionRoutes from "./routes/classSessionRoutes";

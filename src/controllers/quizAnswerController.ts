@@ -1,4 +1,4 @@
-import Answer from "@models/quizAnswer";
+import Answer from ".././models/quizAnswer";
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 

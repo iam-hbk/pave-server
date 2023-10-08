@@ -1,8 +1,8 @@
 import { Router } from "express";
-import userController from "@controllers/userController";
-import authController from "@controllers/authController";
-import { authenticateJWT } from "@middlewares/auth";
-import checkUserRole from "@middlewares/roleAuthorization";
+import userController from "../controllers/userController";
+import authController from "../controllers/authController";
+import { authenticateJWT } from "../middlewares/auth";
+import checkUserRole from "../middlewares/roleAuthorization";
 const router: Router = Router();
 
 // Public Routes

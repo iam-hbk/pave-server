@@ -1,6 +1,6 @@
-import User from "@models/user";
+import User from "../models/user";
 import { Request, Response } from "express";
-import Module from "@models/module";
+import Module from "../models/module";
 
 export const createModule = async (req: Request, res: Response) => {
   try {

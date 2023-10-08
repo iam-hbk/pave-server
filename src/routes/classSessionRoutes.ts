@@ -1,5 +1,5 @@
 import express from "express";
-import * as classSessionController from "@controllers/classSessionController";
+import * as classSessionController from "../controllers/classSessionController";
 
 const router = express.Router();
 
