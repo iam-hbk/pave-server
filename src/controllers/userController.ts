@@ -59,6 +59,7 @@ class UserController {
         wallet: user.wallet,
         modules: user.modules,
         token: token,
+        consecutiveLogins: user.consecutiveLogins,
       };
 
       res.status(200).json({ user: userResponse });
@@ -116,6 +117,8 @@ class UserController {
         });
         return;
       }
+      user.wallet += 10; // Reward user with 10 coins for each daily check-in
+
       //Login Streak check
       const today = new Date();
       const yesterday = new Date(today);
@@ -132,15 +135,16 @@ class UserController {
       if (user.lastLogin.toDateString() === yesterday.toDateString()) {
         // Consecutive login
         user.consecutiveLogins += 1;
+  
       } else {
         // Reset counter
         user.consecutiveLogins = 1;
       }
 
-      if (user.consecutiveLogins === 7) {
+      if (user.consecutiveLogins === 5) {
+        //extra reward for 7-day streak
         user.wallet += 50;
         user.consecutiveLogins = 0;
-        // Reward for 7-day streak, e.g., extra quiz attempts, bonus points, etc.
       }
       user.lastLogin = today;
       await user.save();

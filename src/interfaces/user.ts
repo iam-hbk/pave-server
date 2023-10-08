@@ -9,4 +9,5 @@ export interface JsonUser {
   wallet: number;
   token: string;
   modules: mongoose.Schema.Types.ObjectId[];
+  consecutiveLogins: number;
 }
