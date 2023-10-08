@@ -5,7 +5,7 @@ import { sendNotifications } from "./expoNotifications";
 //pipelines
 import session, { newSessionPipeline } from "../models/classSession";
 import user, { walletChangePipeline } from "../models/user";
-import attendance, { newAttendancePipeline } from "models/attendance";
+import attendance, { newAttendancePipeline } from "../models/attendance";
 
 export function setupSocket(server: HTTPServer): void {
   console.log("Setting up socket.io server...");
