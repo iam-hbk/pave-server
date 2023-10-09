@@ -37,7 +37,7 @@ const UserSchema = new Schema<IUser>({
     },
   ],
   lastLogin: { type: Date, default: Date.now },
-  consecutiveLogins: { type: Number, default: 1 },
+  consecutiveLogins: { type: Number, default: 0 },
 });
 
 //This is a change stream pipeline that will only trigger when the `wallet` field is updated

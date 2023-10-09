@@ -58,6 +58,7 @@ class UserController {
         profilePicture: user.profilePicture,
         wallet: user.wallet,
         modules: user.modules,
+        consecutiveLogins: user.consecutiveLogins,
         token: token,
       };
 
@@ -108,6 +109,7 @@ class UserController {
 
   //Daily checkin
   public async dailyCheckin(req: Request, res: Response): Promise<void> {
+    
     try {
       const user = await User.findById(req.body.id);
       if (!user) {
@@ -123,7 +125,7 @@ class UserController {
 
       if (user.lastLogin.toDateString() === today.toDateString()) {
         // Already logged in today
-        res.status(200).json({
+        res.status(403).json({
           message: "Already checked in today",
         });
         return;
