@@ -43,6 +43,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+#files inside course-material folder
+course-material/**/*
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

@@ -8,7 +8,7 @@ class UserController {
   // Create a new user
   public async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const user: IUser = new User(req.body);
+      const user = new User(req.body);
       await user.save();
       res.status(201).json({ message: "User created successfully", user });
     } catch (error) {
@@ -109,7 +109,6 @@ class UserController {
 
   //Daily checkin
   public async dailyCheckin(req: Request, res: Response): Promise<void> {
-    
     try {
       const user = await User.findById(req.body.id);
       if (!user) {
@@ -168,7 +167,7 @@ class UserController {
         return;
       }
       const users = await User.find().sort({ wallet: -1 });
-      const ranking = users.findIndex((user) => user._id == req.params.id);
+      const ranking = users.findIndex((user: any) => user._id == req.params.id);
       res.status(200).json({ ranking: ranking + 1 });
     } catch (error) {
       res.status(500).json({ message: "Error fetching user", error });
