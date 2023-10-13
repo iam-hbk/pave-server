@@ -45,7 +45,7 @@ const SAMPLE_RESPONSE: GeneratedQuestion[] = [
 
 const model = new ChatOpenAI({
   modelName: "gpt-4",
-  temperature: 0.2,
+  temperature: 0.5,
 });
 
 const outputFixingParser = OutputFixingParser.fromLLM(model, outputParser);
@@ -72,7 +72,7 @@ export const generateQuizUsingOpenai = async (
   context: string
 ): Promise<GeneratedQuestion[]> => {
 
-    
+
   const answerFormattingChain = new LLMChain({
     llm: model,
     prompt,

@@ -1,5 +1,5 @@
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { dowloadDocument } from "./../../utils/index";
+import { dowloadDocument } from "../utils/index";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";

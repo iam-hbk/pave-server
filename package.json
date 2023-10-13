@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "start": "node -r tsconfig-paths/register ./dist/server.js",
+    "start": "node -r tsconfig-paths/register dist/server.js",
     "start:dev": "nodemon --watch src -e ts,tsx --exec \"ts-node -r tsconfig-paths/register src/server.ts\""
   },
   "keywords": [],
