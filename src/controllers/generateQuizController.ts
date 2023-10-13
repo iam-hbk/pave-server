@@ -4,12 +4,12 @@ import { generateEmbeddings } from "middlewares/generateQuizMiddleware";
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
     const filePath = req.body.filePath;
-    const topic = req.body.topic;
+    const topic = req.body.topic as string;
     const numberOfQuestions = req.body.numberOfQuestions;
     console.log("\nfilePath", filePath);
     console.log("topic", topic);
     console.log("numberOfQuestions", numberOfQuestions, "\n\n");
-    if (!filePath || !topic || !numberOfQuestions)
+    if (!filePath || topic.length < 1 || !numberOfQuestions)
       throw new Error("Error: Missing required parameters");
 
     const result = await generateEmbeddings(filePath, topic, numberOfQuestions);
