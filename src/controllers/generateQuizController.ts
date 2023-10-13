@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { generateEmbeddings } from "middlewares/generateQuizMiddleware";
+import { generateEmbeddings } from "../middlewares/generateQuizMiddleware";
 
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
