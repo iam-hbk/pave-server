@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Quiz from "../models/quiz";
 import Module from "../models/module";
+import QuizAnswer from "../models/quizAnswer";
 
 export const createQuiz = async (req: Request, res: Response) => {
   try {
@@ -32,19 +33,30 @@ export const getQuizzesByModuleID = async (req: Request, res: Response) => {
     const quizzes = await Quiz.find({ module: req.params.id });
     if (!quizzes) return res.status(404).json({ message: "Quiz not found" });
 
-    const formattedQuizzes = quizzes.map((quiz) => {
+    //return the number of students that have attempted the quiz
+    const getNumberOfStudentsThatAttemptedQuiz = async (quizId: string) => {
+      const quizAnswers = await QuizAnswer.find({ quiz: quizId });
+      return quizAnswers.length;
+    };
+
+    const formattedQuizzesPromises = quizzes.map(async (quiz) => {
+      const n = await getNumberOfStudentsThatAttemptedQuiz(quiz._id);
       return {
         ...quiz.toObject(),
         moduleCode: module.moduleCode,
         moduleName: module.moduleName,
+        numberOfStudentsThatAttemptedQuiz: n,
       };
     });
+
+    const formattedQuizzes = await Promise.all(formattedQuizzesPromises);
 
     res.json({ quizzes: formattedQuizzes });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const getQuizzesByModuleCode = async (req: Request, res: Response) => {
   try {

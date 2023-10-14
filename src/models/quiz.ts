@@ -16,10 +16,11 @@ export interface IQuiz extends Document {
 
   module: mongoose.Schema.Types.ObjectId; // Reference to Module model
   questions: Question[];
-  date: Date;
   title: string;
   isActive: boolean;
   expiresAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 /**
@@ -40,10 +41,11 @@ const QuizSchema = new Schema<IQuiz>({
       correctAnswer: { type: Number, required: true },
     },
   ],
-  date: { type: Date, default: Date.now },
   title: { type: String, required: true },
   isActive: { type: Boolean, default: true },
   expiresAt: { type: Date, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model<IQuiz>("Quiz", QuizSchema);

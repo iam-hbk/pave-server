@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  authenticateJWT,
+  // authenticateJWT,
   //   checkUserRole(["Admin", "Lecturer"]), //TODO: uncomment this line
   quizController.createQuiz
 );
@@ -28,7 +28,7 @@ router.get(
 );
 router.get(
   "/module/id/:id",
-  authenticateJWT,
+  // authenticateJWT,
   quizController.getQuizzesByModuleID
 )
 

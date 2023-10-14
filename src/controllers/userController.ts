@@ -8,7 +8,7 @@ class UserController {
   // Create a new user
   public async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const user: IUser = new User(req.body);
+      const user = new User(req.body);
       await user.save();
       res.status(201).json({ message: "User created successfully", user });
     } catch (error) {
@@ -58,6 +58,7 @@ class UserController {
         profilePicture: user.profilePicture,
         wallet: user.wallet,
         modules: user.modules,
+        consecutiveLogins: user.consecutiveLogins,
         token: token,
       };
 
@@ -123,7 +124,7 @@ class UserController {
 
       if (user.lastLogin.toDateString() === today.toDateString()) {
         // Already logged in today
-        res.status(200).json({
+        res.status(403).json({
           message: "Already checked in today",
         });
         return;
@@ -166,7 +167,7 @@ class UserController {
         return;
       }
       const users = await User.find().sort({ wallet: -1 });
-      const ranking = users.findIndex((user) => user._id == req.params.id);
+      const ranking = users.findIndex((user: any) => user._id == req.params.id);
       res.status(200).json({ ranking: ranking + 1 });
     } catch (error) {
       res.status(500).json({ message: "Error fetching user", error });
