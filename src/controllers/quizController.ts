@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Quiz from "../models/quiz";
 import Module from "../models/module";
-import QuizAnswer from "models/quizAnswer";
+import QuizAnswer from "../models/quizAnswer";
 
 export const createQuiz = async (req: Request, res: Response) => {
   try {
