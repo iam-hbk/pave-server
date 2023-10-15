@@ -32,7 +32,7 @@ app.use(cors());
 // To customize CORS settings:
 // app.use(cors({
 //   origin: 'http://yourfrontenddomain.com', // replace with your frontend domain
-//   methods: ['GET', 'POST'], // allowed methods
+//   methods: ["*"], // allowed methods
 //   allowedHeaders: ['Content-Type', 'Authorization']
 // }));
 

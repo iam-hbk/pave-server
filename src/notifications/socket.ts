@@ -38,10 +38,10 @@ export function setupSocket(server: HTTPServer): void {
       console.log("Wallet change detected:", change);
       io.emit("wallet change", change);
     });
-
+attendanceChangeStream.on("",()=>{})
     attendanceChangeStream.on("change", (change: any) => {
-      console.log("Attendance change detected:", change);
-      io.emit("newAttendance", change);
+      console.log("Attendance change detected:",change['fullDocument']);
+      io.emit("newAttendance", change['fullDocument']);
     });
 
     socket.on("disconnect", () => {

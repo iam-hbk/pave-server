@@ -5,6 +5,7 @@ export interface IAttendance extends Document {
   session: mongoose.Schema.Types.ObjectId; // Reference to Session model
   scanTime: Date; // The time when the student scanned the QR code
   rewardAmount: number; // Amount of PaveCoins rewarded to the student for this attendance
+  studentName: string;
 }
 
 const AttendanceSchema = new Schema<IAttendance>({
@@ -20,29 +21,14 @@ const AttendanceSchema = new Schema<IAttendance>({
   },
   scanTime: { type: Date, default: Date.now },
   rewardAmount: { type: Number, default: 0 },
+  studentName: { type: String, required: true },
 });
-
 
 export const newAttendancePipeline = [
   {
     $match: {
-      'operationType': 'insert'
-    }
+      operationType: "insert",
+    },
   },
-  {
-    $lookup: {
-      from: "users", // assuming the User collection is named "users"
-      localField: "student",
-      foreignField: "_id",
-      as: "studentData"
-    }
-  },
-  {
-    $project: {
-      "sessionId": "$session",
-      "studentName": "$studentData.name",
-      "scanTime": 1
-    }
-  }
 ];
 export default mongoose.model<IAttendance>("Attendance", AttendanceSchema);

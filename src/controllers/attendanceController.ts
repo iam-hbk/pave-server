@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Attendance from "../models/attendance";
+import user from "../models/user";
 
 export const createAttendance = async (req: Request, res: Response) => {
   /**
@@ -11,14 +12,18 @@ export const createAttendance = async (req: Request, res: Response) => {
       student: req.body.student,
       session: req.body.session,
     });
-    console.log("ATTENDANCE:",req.body);
     if (existingAttendance) {
       return res.status(400).json({ message: "Attendance already exists" });
     }
+    //get student name from student id
+    const student = await user.findOne({ _id: req.body.student });
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    req.body.studentName = student.name;
 
     const attendance = new Attendance(req.body);
     await attendance.save();
-    console.log("ATTENDANCE registered",attendance);
     res.status(201).json(attendance);
   } catch (error) {
     res.status(500).json({ message: "Error creating attendance", error });
@@ -32,7 +37,7 @@ export const getAttendanceBySessionId = async (req: Request, res: Response) => {
    */
   try {
     const attendances = await Attendance.find({ session: req.params.id }).populate("student", "name");
-    console.log("ATTENDANCE",attendances);
+    // console.log("ATTENDANCE",attendances);
     res.status(200).json(attendances);
   } catch (error) {
     res.status(500).json({ message: "Error fetching attendances", error });
