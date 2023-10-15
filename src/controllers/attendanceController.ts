@@ -11,6 +11,7 @@ export const createAttendance = async (req: Request, res: Response) => {
       student: req.body.student,
       session: req.body.session,
     });
+    console.log("ATTENDANCE:",req.body);
     if (existingAttendance) {
       return res.status(400).json({ message: "Attendance already exists" });
     }

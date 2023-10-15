@@ -52,15 +52,20 @@ export function setupSocket(server: HTTPServer): void {
 
     // Handle potential errors from the streams
     newSessionStream.on("error", (error: any) => {
-      console.error("Error in newSessionStream:", error);
+      handleError({ ...error, context: "New Session Stream" });
     });
 
     walletChangeStream.on("error", (error: any) => {
-      console.error("Error in walletChangeStream:", error);
+      handleError({ ...error, context: "Wallet Change Stream" });
     });
 
     attendanceChangeStream.on("error", (error: any) => {
-      console.error("Error in attendanceChangeStream:", error);
+      handleError({ ...error, context: "Attendance Change Stream" });
     });
   });
+}
+
+function handleError(error: Error) {
+  console.error(error);
+  // Optionally, log error to an external logging service, send alert notifications, etc.
 }

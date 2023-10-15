@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  authenticateJWT,
+  // authenticateJWT,
   attendanceController.createAttendance
 );
 // get attendance by class session id

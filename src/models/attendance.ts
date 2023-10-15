@@ -22,11 +22,27 @@ const AttendanceSchema = new Schema<IAttendance>({
   rewardAmount: { type: Number, default: 0 },
 });
 
+
 export const newAttendancePipeline = [
   {
     $match: {
-      operationType: "insert",
-    },
+      'operationType': 'insert'
+    }
   },
+  {
+    $lookup: {
+      from: "users", // assuming the User collection is named "users"
+      localField: "student",
+      foreignField: "_id",
+      as: "studentData"
+    }
+  },
+  {
+    $project: {
+      "sessionId": "$session",
+      "studentName": "$studentData.name",
+      "scanTime": 1
+    }
+  }
 ];
 export default mongoose.model<IAttendance>("Attendance", AttendanceSchema);
